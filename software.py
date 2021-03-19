@@ -199,13 +199,17 @@ class BasicDroneController():
 	def SetCommand(self, arg, land=0):
 		# Called by the main program to set the current command		
 
-		if arg.trackingFace == 0 or self.init == 0 or land == 1:
+		if  or self.init == 0 or land == 1:
 
 			self.command.linear.x = 0
 			self.command.linear.y = 0
 			self.command.linear.z = 0
 			self.command.angular.z = 0
 			self.init = 1
+			
+		elif arg.trackingFace == 0 :
+			self.command.linear.x = -1*self.velox/100
+			self.command.linear.y = -1*self.veloy/100
 
 		elif arg.x_decal > 0 and self.command.linear.y != 0.1 and time.time() - self.t < 2:
 			self.t = time.time()
@@ -216,7 +220,8 @@ class BasicDroneController():
 			self.command.linear.y = -0.1
 		
 		elif time.time() - self.t < 1.20:
-			self.command.linear.y = 0
+			self.command.linear.x = -1*self.velox/100
+			self.command.linear.y = -1*self.veloy/100
 
 		else :
 			self.t = time.time()
